@@ -1,8 +1,8 @@
-$('#release-notes').html('<%= escape_javascript render(:partial => 'issues/release_notes',
-                                                       :locals => { :release_note => @release_note,
+$('#testing-steps').html('<%= escape_javascript render(:partial => 'issues/testing_steps',
+                                                       :locals => { :testing_step => @testing_step,
                                                                     :issue => @issue }) %>')
-<% if @release_note.errors.any? %>
-  toggle_release_notes()
+<% if @testing_step.errors.any? %>
+  toggle_testing_steps()
 <% else %>
   window.location.reload()  
 <% end %>

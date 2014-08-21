@@ -1,13 +1,13 @@
 ru:
-  release_notes:
+  testing_steps:
     title: "Примечания к версиям"
     title_plural: "Примечания к версиям"
 
-    release_note: "Примечание к версии"
-    release_note_plural: "примечание к версии"
+    testing_step: "Примечание к версии"
+    testing_step_plural: "примечание к версии"
 
     mark_complete: "Замечания к выпуску для завершения этого вопроса?"
-    cant_set_done_if_no_release_notes: "не может быть установлен в %{value} если выпуске не было написано"
+    cant_set_done_if_no_testing_steps: "не может быть установлен в %{value} если выпуске не было написано"
 
     generate: "Сформировать примечания"
     generate_title: "Управление о выпуске версии %{version}"
@@ -15,7 +15,7 @@ ru:
 
     progress: "Прогресс Заметки о выпуске"
     x_issues_in_total: "%{count} задач всего"
-    x_requiring_release_notes: "%{count} требуют примечаний"
+    x_requiring_testing_steps: "%{count} требуют примечаний"
     x_done: "%{count} готово"
     x_done_empty: "%{count} с пустыми примечания к выпуску"
     x_to_go: "%{count} осталось"
@@ -40,7 +40,7 @@ ru:
       one: "Существует 1 выпуск, который не имеет действительного значения заметки о выпуске настраиваемого поля"
       other: "Есть %{count} вопросов, которые не имеют действительного значения заметки о выпуске настраиваемого поля"
 
-    some_issues_done_with_no_release_notes:
+    some_issues_done_with_no_testing_steps:
       one: "Существует 1 вопрос, который помечен как 'Готово', но не имеет выпуске"
       other: "Есть %{count} вопросов, которые помечены как 'сделано', но не имеют никаких Примечания к выпуску"
 
@@ -80,9 +80,9 @@ ru:
       subs:
         intro: "Вы можете использовать подстановки, такие как %{name}, чтобы выводить информацию в Заголовке и строках задач."
         header: "Подстановки ссылающиеся на версию. Можно использовать значения: name, date, id и description."
-        each_issue: "Подстановки ссылающиеся на задачу. Можно использовать значения: subject, release_notes, id, tracker, category и project."
+        each_issue: "Подстановки ссылающиеся на задачу. Можно использовать значения: subject, testing_steps, id, tracker, category и project."
 
     errors:
       failed_find_custom_field: "Не удается найти замечания по выпуску специальное значение для этого вопроса. Попробуйте установить статус выпуске вручную."
-      failed_save_custom_value: "Не удается сохранить выпуске специальное значение для этого вопроса. Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>отчета.</a>"
-      failed_save_journal_entry: "Не удалось сохранить изменения в вопросе истории.Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>отчета</a>."
+      failed_save_custom_value: "Не удается сохранить выпуске специальное значение для этого вопроса. Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_testing_steps/issues/new>отчета.</a>"
+      failed_save_journal_entry: "Не удалось сохранить изменения в вопросе истории.Это, наверное, ошибка.Пожалуйста <a href=https://github.com/hdgarrood/redmine_testing_steps/issues/new>отчета</a>."

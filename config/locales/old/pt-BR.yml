@@ -1,13 +1,13 @@
 pt-BR:
-  release_notes:
+  testing_steps:
     title: "Nota de Release"
     title_plural: "Notas de release"
 
-    release_note: "nota de release"
-    release_note_plural: "notas de release"
+    testing_step: "nota de release"
+    testing_step_plural: "notas de release"
 
     mark_complete: "Notas de lançamento completas para este problema?"
-    cant_set_done_if_no_release_notes: "não pode ser ajustado para %{value} a menos que notas de lançamento foram escritas"
+    cant_set_done_if_no_testing_steps: "não pode ser ajustado para %{value} a menos que notas de lançamento foram escritas"
 
     generate: "Gerar notas de release"
     generate_title: "Gerenciar notas de versão para versão %{version}"
@@ -15,7 +15,7 @@ pt-BR:
 
     progress: "Lançamento notas progresso"
     x_issues_in_total: "%{count} de tarefas no total"
-    x_requiring_release_notes: "%{count} de tarefas precisam de notas de release"
+    x_requiring_testing_steps: "%{count} de tarefas precisam de notas de release"
     x_done: "%{count} concluídas"
     x_done_empty: "%{count} com notas de lançamento vazias"
     x_to_go: "%{count} a fazer"
@@ -40,7 +40,7 @@ pt-BR:
       one: "Há 1 tarefa que não possui valor para o campo de notas de release"
       other: "Há %{count} tarefas que não possuem valor para o campo de notas de release"
 
-    some_issues_done_with_no_release_notes:
+    some_issues_done_with_no_testing_steps:
       one: "Há 1 tarefa marcada como ‘concluída', mas não tem notas de release"
       other: "Há %{count} tarefas marcadas como 'concluídas', mas que não têm notas de release"
 
@@ -84,5 +84,5 @@ pt-BR:
 
     errors:
       failed_find_custom_value: "Incapaz de encontrar as notas de lançamento valor personalizado para este problema. Tente configurar o status de notas de versão manualmente."
-      failed_save_custom_value_html: "Não foi possível salvar notas de lançamento valor personalizado para este problema. Este é provavelmente um bug. Por favor, <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>informe</a>"
-      failed_save_journal_entry_html: "Não foi possível salvar mudança na história problema. Este é provavelmente um bug. Por favor, <a href=https://github.com/hdgarrood/redmine_release_notes/issues/new>informe</a>"
+      failed_save_custom_value_html: "Não foi possível salvar notas de lançamento valor personalizado para este problema. Este é provavelmente um bug. Por favor, <a href=https://github.com/hdgarrood/redmine_testing_steps/issues/new>informe</a>"
+      failed_save_journal_entry_html: "Não foi possível salvar mudança na história problema. Este é provavelmente um bug. Por favor, <a href=https://github.com/hdgarrood/redmine_testing_steps/issues/new>informe</a>"

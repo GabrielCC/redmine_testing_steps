@@ -1,76 +1,76 @@
-# Copyright (C) 2012-2013 Harry Garrood
-# This file is a part of redmine_release_notes.
+# Copyright (C) 2014-2015 Gabriel Croitoru
+# This file is a part of redmine_testing_steps.
 
-# redmine_release_notes is free software: you can redistribute it and/or modify
+# redmine_testing_steps is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option) any
 # later version.
 
-# redmine_release_notes is distributed in the hope that it will be useful, but
+# redmine_testing_steps is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 
 # You should have received a copy of the GNU General Public License along with
-# redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
+# redmine_testing_steps. If not, see <http://www.gnu.org/licenses/>.
 
-module RedmineReleaseNotes
+module RedmineTestingSteps
   module IssuePatch
     def self.perform
       Issue.class_eval do
-        has_one :release_note, :dependent => :destroy
+        has_one :testing_step, :dependent => :destroy
 
-        # NB: the release_notes_* scopes will not return issues which don't
+        # NB: the testing_steps_* scopes will not return issues which don't
         # have a value for the issue custom field.
         
-        # all the issues which need release notes (including ones which have
+        # all the issues which need testing steps (including ones which have
         # them already)
-        def self.release_notes_required
-          done_value = Setting.plugin_redmine_release_notes[:field_value_done]
-          todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
-          joins_release_notes.
+        def self.testing_steps_required
+          done_value = Setting.plugin_redmine_testing_steps[:field_value_done]
+          todo_value = Setting.plugin_redmine_testing_steps[:field_value_todo]
+          joins_testing_steps.
             where('custom_values.value' => [done_value, todo_value])
         end
 
-        # issues which still need release notes
-        def self.release_notes_todo
-          todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
-          joins_release_notes.
+        # issues which still need testing steps
+        def self.testing_steps_todo
+          todo_value = Setting.plugin_redmine_testing_steps[:field_value_todo]
+          joins_testing_steps.
             where('custom_values.value' => todo_value)
         end
 
-        # issues whose release notes are done
-        def self.release_notes_done
-          done_value = Setting.plugin_redmine_release_notes[:field_value_done]
-          joins_release_notes.
+        # issues whose testing steps are done
+        def self.testing_steps_done
+          done_value = Setting.plugin_redmine_testing_steps[:field_value_done]
+          joins_testing_steps.
             where('custom_values.value' => done_value)
         end
 
-        # issues whose release notes are done
-        def self.release_notes_none
-          none_value = Setting.plugin_redmine_release_notes[:field_value_not_required]
-          joins_release_notes.
+        # issues whose testing steps are done
+        def self.testing_steps_none
+          none_value = Setting.plugin_redmine_testing_steps[:field_value_not_required]
+          joins_testing_steps.
             where('custom_values.value' => none_value)
         end
 
-        # issues whose release notes are invalid
-        def self.release_notes_invalid
-          todo_value = Setting.plugin_redmine_release_notes[:field_value_todo]
-          done_value = Setting.plugin_redmine_release_notes[:field_value_done]
-          none_value = Setting.plugin_redmine_release_notes[:field_value_not_required] 
+        # issues whose testing steps are invalid
+        def self.testing_steps_invalid
+          todo_value = Setting.plugin_redmine_testing_steps[:field_value_todo]
+          done_value = Setting.plugin_redmine_testing_steps[:field_value_done]
+          none_value = Setting.plugin_redmine_testing_steps[:field_value_not_required] 
 
-          joins_release_notes.
+          joins_testing_steps.
             where('custom_values.value not in (?)', [done_value, todo_value,none_value])
         end
 
-        def self.release_notes_no_cf_defined
+        def self.testing_steps_no_cf_defined
           includes(:custom_values).where(no_cf_defined_condition) 
         end
 
         # issues where CF is set to 'none' OR for which custom field is not defined
-        def self.release_notes_not_required
-          cf_id = Setting.plugin_redmine_release_notes[:issue_custom_field_id].to_i
-          none_value = Setting.plugin_redmine_release_notes[:field_value_not_required]
+        def self.testing_steps_not_required
+          cf_id = Setting.plugin_redmine_testing_steps[:issue_custom_field_id].to_i
+          none_value = Setting.plugin_redmine_testing_steps[:field_value_not_required]
  
 	  conditions = "( custom_values.custom_field_id = #{cf_id}"
 	  conditions << " AND custom_values.value = '#{none_value}' )"
@@ -78,63 +78,63 @@ module RedmineReleaseNotes
           includes(:custom_values).where( conditions + " OR " + no_cf_defined_condition ) 
         end
 
-        # issues which don't have a custom value for release notes
+        # issues which don't have a custom value for testing steps
 	# now it doesn't contain issues where cf is not defined
-	# - those issues are qualified under release_notes_not_required
-        def self.release_notes_custom_value_nil
+	# - those issues are qualified under testing_steps_not_required
+        def self.testing_steps_custom_value_nil
           conditions = "( (custom_values.value IS NULL"
           conditions << " OR custom_values.value = '') )"
 
-          joins_release_notes.where(conditions)
+          joins_testing_steps.where(conditions)
         end
 
-        # issues which have the release notes custom field value set to 'done'
-        # but no release notes
-        def self.done_but_release_notes_nil
+        # issues which have the testing steps custom field value set to 'done'
+        # but no testing steps
+        def self.done_but_testing_steps_nil
           conditions = "NOT EXISTS ("
-          conditions << "SELECT 1 FROM release_notes"
+          conditions << "SELECT 1 FROM testing_steps"
           conditions << " WHERE issue_id = issues.id"
           conditions << ")"
-          release_notes_done.where(conditions)
+          testing_steps_done.where(conditions)
         end
 
-        # can this issue have release notes?
-        # true if the issue has the configured custom field for release notes
-        def eligible_for_release_notes?
+        # can this issue have testing steps?
+        # true if the issue has the configured custom field for testing steps
+        def eligible_for_testing_steps?
           cf_id = Setting.
-            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+            plugin_redmine_testing_steps[:issue_custom_field_id].to_i
           available_custom_fields.include?(CustomField.find(cf_id))
         rescue ActiveRecord::RecordNotFound
           false
         end
 
-        def release_notes_done?
-           cf = release_notes_custom_value
-           done_value = Setting.plugin_redmine_release_notes[:field_value_done]
+        def testing_steps_done?
+           cf = testing_steps_custom_value
+           done_value = Setting.plugin_redmine_testing_steps[:field_value_done]
            cf.value == done_value unless cf.nil?
         rescue ActiveRecord::RecordNotFound
            false
         end
 
-        # returns the CustomValue which describes the release notes status for
+        # returns the CustomValue which describes the testing steps status for
         # this issue
-        def release_notes_custom_value
+        def testing_steps_custom_value
           cf_id = Setting.
-            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+            plugin_redmine_testing_steps[:issue_custom_field_id].to_i
           custom_values.find_by_custom_field_id(cf_id)
         end
 
         private
-        def self.joins_release_notes
+        def self.joins_testing_steps
           custom_field_id = Setting.
-            plugin_redmine_release_notes[:issue_custom_field_id]
+            plugin_redmine_testing_steps[:issue_custom_field_id]
           joins(:custom_values).
             where('custom_values.custom_field_id' => custom_field_id)
         end
 
 	def self.no_cf_defined_condition
           cf_id = Setting.
-            plugin_redmine_release_notes[:issue_custom_field_id].to_i
+            plugin_redmine_testing_steps[:issue_custom_field_id].to_i
 
           conditions_b = "NOT EXISTS ("
           conditions_b << "SELECT 1 FROM custom_values"

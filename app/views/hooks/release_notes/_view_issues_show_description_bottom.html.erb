@@ -1,6 +1,6 @@
 <script>
-  function toggle_release_notes() {
-    $.each(['#release-notes-display', '#release-notes-form'],
+  function toggle_testing_steps() {
+    $.each(['#testing-steps-display', '#testing-steps-form'],
            function(_, selector) {
              $(selector).toggle()
            })
@@ -9,8 +9,8 @@
 
 <hr />
 
-<div id="release-notes">
-  <%= render :partial => 'issues/release_notes', 
-      :locals => { :release_note => release_note,
+<div id="testing-steps">
+  <%= render :partial => 'issues/testing_steps', 
+      :locals => { :testing_step => testing_step,
                    :issue => issue } %>
 </div>

@@ -1,4 +1,4 @@
-<h2><%= t('release_notes.title_plural') %></h2>
+<h2><%= t('testing_steps.title_plural') %></h2>
 
 <% if @versions.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
@@ -6,18 +6,18 @@
 <div id="roadmap">
 <% @versions.each do |version| %>
   <h3 class="version"><%= link_to_version version %></h3>
-  <%= render :partial => 'release_notes/overview', :locals => {:version => version} %>
+  <%= render :partial => 'testing_steps/overview', :locals => {:version => version} %>
 <% end %>
 </div>
 <% end %>
 
 <% content_for :sidebar do %>
   <%= form_tag({}, :method => :get) do %>
-    <h3><%= t('release_notes.title_plural') %></h3>
+    <h3><%= t('testing_steps.title_plural') %></h3>
 
     <label for="closed">
       <%= check_box_tag "closed", 1, params[:closed] %>
-      <%= t('release_notes.show_closed_versions') %>
+      <%= t('testing_steps.show_closed_versions') %>
     </label>
 
     <% if @project.descendants.active.any? %>
@@ -40,4 +40,4 @@
   <% end %>
 <% end %>
 
-<% html_title t('release_notes.title_plural') %>
+<% html_title t('testing_steps.title_plural') %>

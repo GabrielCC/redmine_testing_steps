@@ -1,20 +1,20 @@
-# Copyright (C) 2012-2013 Harry Garrood
-# This file is a part of redmine_release_notes.
+# Copyright (C) 2014-2015 Gabriel Croitoru
+# This file is a part of redmine_testing_steps.
 
-# redmine_release_notes is free software: you can redistribute it and/or modify
+# redmine_testing_steps is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option) any
 # later version.
 
-# redmine_release_notes is distributed in the hope that it will be useful, but
+# redmine_testing_steps is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 # FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 # details.
 
 # You should have received a copy of the GNU General Public License along with
-# redmine_release_notes. If not, see <http://www.gnu.org/licenses/>.
+# redmine_testing_steps. If not, see <http://www.gnu.org/licenses/>.
 
-class ReleaseNotesController < ApplicationController
+class TestingStepsController < ApplicationController
   unloadable
 
   before_filter :find_version, :only => [:generate]
@@ -38,11 +38,11 @@ class ReleaseNotesController < ApplicationController
 
   # we only expect this to be called with :format => :js
   def create
-    @issue = Issue.find(params[:release_note][:issue_id])
-    @release_note = @issue.build_release_note
-    @release_note.text = params[:release_note][:text]
+    @issue = Issue.find(params[:testing_step][:issue_id])
+    @testing_step = @issue.build_testing_step
+    @testing_step.text = params[:testing_step][:text]
 
-    if @release_note.save
+    if @testing_step.save
       update_custom_field(params[:mark_completed])
     end
 
@@ -51,11 +51,11 @@ class ReleaseNotesController < ApplicationController
 
   # we only expect this to be called with :format => :js
   def update
-    @issue = Issue.find(params[:release_note][:issue_id])
-    @release_note = @issue.release_note
-    @release_note.text = params[:release_note][:text]
+    @issue = Issue.find(params[:testing_step][:issue_id])
+    @testing_step = @issue.testing_step
+    @testing_step.text = params[:testing_step][:text]
 
-    if @release_note.save
+    if @testing_step.save
       update_custom_field(params[:mark_completed])
     end
 
@@ -64,12 +64,12 @@ class ReleaseNotesController < ApplicationController
   end
 
   def destroy
-    release_note = ReleaseNote.find(params[:id])
-    issue = release_note.issue
+    testing_step = TestingStep.find(params[:id])
+    issue = testing_step.issue
 
     update_custom_field(false)
 
-    release_note.destroy
+    testing_step.destroy
 
     flash[:notice] = l(:notice_successful_delete)
     redirect_to issue
@@ -79,19 +79,19 @@ class ReleaseNotesController < ApplicationController
     # for project menu
     @project = @version.project
 
-    @format = release_notes_format_from_params
+    @format = testing_steps_format_from_params
     (render 'no_formats'; return) unless @format
 
     # for 'Also available in'
-    @formats = ReleaseNotesFormat.select(:name).all
+    @formats = TestingStepsFormat.select(:name).all
 
-    @content = ReleaseNotesGenerator.new(@version, @format).generate
+    @content = TestingStepsGenerator.new(@version, @format).generate
 
     if params[:raw]
       render :text => @content, :content_type => 'text/plain'
     elsif params[:download]
       send_data @content, :content_type => 'text/plain',
-        :filename => "release-notes-#{@project.name}-version-#{@version.name}.txt"
+        :filename => "testing-steps-#{@project.name}-version-#{@version.name}.txt"
     end
   end
 
@@ -109,16 +109,16 @@ class ReleaseNotesController < ApplicationController
   end
 
   def update_custom_field(completed)
-    new_value = Setting.plugin_redmine_release_notes.
+    new_value = Setting.plugin_redmine_testing_steps.
       fetch(completed ? :field_value_done : :field_value_todo)
 
-    custom_value = @issue.release_notes_custom_value
+    custom_value = @issue.testing_steps_custom_value
 
     # TODO: Maybe it would be better to just go ahead and create one, instead
     # of telling the user to do it manually
     if !custom_value
-      @release_note.errors.add(:base,
-        t('release_notes.errors.failed_find_custom_value'))
+      @testing_step.errors.add(:base,
+        t('testing_steps.errors.failed_find_custom_value'))
       return
     end
 
@@ -135,30 +135,30 @@ class ReleaseNotesController < ApplicationController
            :old_value => old_value,
            :value => new_value)
          if !journal.save
-           @release_note.errors.add(:base,
-             t('release_notes.errors.failed_save_journal_entry_html').html_safe)
+           @testing_step.errors.add(:base,
+             t('testing_steps.errors.failed_save_journal_entry_html').html_safe)
          end
        else
-        @release_note.errors.add(:base,
-          t('release_notes.errors.failed_save_custom_value_html').html_safe)
+        @testing_step.errors.add(:base,
+          t('testing_steps.errors.failed_save_custom_value_html').html_safe)
        end
     end
   end
 
-  def release_notes_format_from_params
-    if (format_name = params[:release_notes_format])
-      format = ReleaseNotesFormat.find_by_name(format_name)
+  def testing_steps_format_from_params
+    if (format_name = params[:testing_steps_format])
+      format = TestingStepsFormat.find_by_name(format_name)
     end
 
     if format.nil?
-      id = Setting.plugin_redmine_release_notes[:default_generation_format_id]
+      id = Setting.plugin_redmine_testing_steps[:default_generation_format_id]
       # dont raise RecordNotFound
-      format = ReleaseNotesFormat.find_by_id(id)
+      format = TestingStepsFormat.find_by_id(id)
     end
 
     # last resort -- just get the first one
     if format.nil?
-      format = ReleaseNotesFormat.first
+      format = TestingStepsFormat.first
     end
 
     format

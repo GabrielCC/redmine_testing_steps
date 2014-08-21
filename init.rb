@@ -1,4 +1,4 @@
-# Copyright (C) 2012-2013 Harry Garrood
+# Copyright (C) 2014-2015 Gabriel Croitoru
 # This file is a part of redmine_testing_steps.
 
 # redmine_testing_steps is free software: you can redistribute it and/or modify

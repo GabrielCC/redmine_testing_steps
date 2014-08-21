@@ -1,22 +1,22 @@
-<div id="release-notes-details-required" style="display: none;" >
+<div id="testing-steps-details-required" style="display: none;" >
  <table class="list"> 
    <%# % done %>
    <tr>
      <td> <span class="summary">
       <% if stats[:done] < stats[:required] %>
-        <%= t('release_notes.x_done', :count => stats[:done]) %> 
+        <%= t('testing_steps.x_done', :count => stats[:done]) %> 
       <% else %>
-        <%= t('release_notes.all_done') %> 
+        <%= t('testing_steps.all_done') %> 
       <% end %></span>
       <% # > Any one blank? %> 
       <% if (stats[:done_empty] > 0)  %>
-        <span class="error-text"><%= " (#{t('release_notes.x_done_empty', :count => stats[:done_empty])}) " %></span> 
+        <span class="error-text"><%= " (#{t('testing_steps.x_done_empty', :count => stats[:done_empty])}) " %></span> 
       <% end %>
     </td>
   </tr>
   <tr>
     <td>
-      <% version.fixed_issues.release_notes_done.each do |issue|  %>
+      <% version.fixed_issues.testing_steps_done.each do |issue|  %>
       <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
       <% end %>
     </td>
@@ -24,11 +24,11 @@
   <% # > Todo %>
   <% if stats[:todo] > 0 %>
    <tr>
-     <td class="summary"><%= t('release_notes.x_to_go', :count =>stats[:todo]) %></td>
+     <td class="summary"><%= t('testing_steps.x_to_go', :count =>stats[:todo]) %></td>
    </tr>
    <tr>
      <td>
-       <% version.fixed_issues.release_notes_todo.each do |issue|  %>
+       <% version.fixed_issues.testing_steps_todo.each do |issue|  %>
          <%= link_to_issue(issue,:subject => false, :tracker => false) + ", " %>
        <% end %>
      </td>

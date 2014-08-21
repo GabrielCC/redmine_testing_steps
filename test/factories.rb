@@ -26,8 +26,8 @@ FactoryGirl.define do
     identifier            { name.downcase }
     enabled_module_names  %w(issue_tracking)
 
-    factory :project_with_release_notes do
-      enabled_module_names %w(issue_tracking release_notes)
+    factory :project_with_testing_steps do
+      enabled_module_names %w(issue_tracking testing_steps)
     end
   end
 
@@ -47,7 +47,7 @@ FactoryGirl.define do
     sequence(:name) {|n| "tracker-#{n}"}
   end
 
-  factory :release_note do
+  factory :testing_step do
     text 'no longer broken'
     issue
   end
@@ -60,16 +60,16 @@ FactoryGirl.define do
     sequence(:name) {|n| "0.0.#{n}"}
     project
 
-    factory :version_with_release_notes do
-      association :project, :factory => :project_with_release_notes
+    factory :version_with_testing_steps do
+      association :project, :factory => :project_with_testing_steps
     end
   end
 
-  factory :release_notes_format do
+  factory :testing_steps_format do
     sequence(:name) {|n| "format-#{n}"}
-    header 'Release notes for %{version}'
+    header 'testing steps for %{version}'
     start ''
-    each_issue '* %{release_notes}'
+    each_issue '* %{testing_steps}'
 
     # hack -- we can't write a literal 'end' cuz it's a Ruby keyword
     sequence(:end) {|n| '' }

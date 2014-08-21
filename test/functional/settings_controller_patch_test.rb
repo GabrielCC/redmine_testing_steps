@@ -9,10 +9,10 @@ class SettingsControllerPatchTest < ActionController::TestCase
     @request.session[:user_id] = @user.id
   end
 
-  test 'uses special view for release notes settings' do
-    get :plugin, :id => 'redmine_release_notes'
+  test 'uses special view for testing steps settings' do
+    get :plugin, :id => 'redmine_testing_steps'
     assert_response :success
-    assert_template 'plugin_release_notes'
+    assert_template 'plugin_testing_steps'
   end
 
   test 'doesnt break other plugin settings' do
