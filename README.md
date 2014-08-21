@@ -1,6 +1,7 @@
 # redmine testing steps
 
-based on https://github.com/hdgarrood/redmine_release_notes
+copied from https://github.com/hdgarrood/redmine_release_notes and changed only the bare minimum
+
 
 Do any of the following apply?
 
