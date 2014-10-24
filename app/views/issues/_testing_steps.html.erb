@@ -14,7 +14,7 @@
   </p>
   <% if testing_step.text %>
     <div class="wiki">
-    <p><%= h(testing_step.text).gsub(/(\r\n|\r|\n)/, "<br>").html_safe %></p>
+    <p><%= textilizable testing_step, :text %></p>
     </div>
   <% end %>
 </div>
