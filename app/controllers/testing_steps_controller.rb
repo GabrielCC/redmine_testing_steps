@@ -65,14 +65,14 @@ class TestingStepsController < ApplicationController
 
   def destroy
     testing_step = TestingStep.find(params[:id])
-    issue = testing_step.issue
+    @issue = testing_step.issue
 
     update_custom_field(false)
 
     testing_step.destroy
 
     flash[:notice] = l(:notice_successful_delete)
-    redirect_to issue
+    redirect_to @issue
   end
 
   def generate
