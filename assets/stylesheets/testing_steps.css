@@ -15,3 +15,7 @@
   margin: 10px 0px;
   display: block;
 }
+
+#testing-steps-form .mentions-input-box textarea {
+  min-height: 75px;
+}
