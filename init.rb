@@ -43,7 +43,7 @@ Redmine::Plugin.register :redmine_testing_steps do
       :field_value_done => 'Done',
       :field_value_not_required => 'Not required'
     },
-    :partial => 'not_blank'
+    :partial => 'testing_steps_not_blank'
 
   project_module :redmine_testing_steps do
     permission :redmine_testing_steps,
