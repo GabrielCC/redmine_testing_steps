@@ -26,18 +26,18 @@
                testing_steps_path,
              :method => testing_step.persisted? ? :put : :post,
              :html => {:id => 'testing-steps-form', :style => 'display: none;'}) do |f| %>
-  <p><strong><%= t('testing_steps.title_plural') %></strong></p>
+  <div id="testing-steps-display">
+    <p><strong><%= t('testing_steps.title_plural') %></strong></p>
+  </div>
   <div style='margin: 10px 10px 0px 10px;'>
     <%= error_messages_for testing_step %>
     <%= f.hidden_field 'issue_id', :value => issue.id %>
-    <%= f.text_area 'text', :rows => 5,
-      :class => 'wiki-edit',
-      :no_label => true %>
-      <br />
+    <%= f.text_area 'text', :rows => 5, :class => 'wiki-edit', :no_label => true %>
+    <span class="steps-complete">
       <%= check_box_tag 'mark_completed', 1, issue.testing_steps_done? %>
       <%= label_tag 'mark_completed', t('testing_steps.mark_complete') %>
-      <br />
-      <%= f.submit t(:button_submit), :onclick => "$('#testing_steps>.flash.error').remove(); return true;" %>
-      <%= link_to_function t(:button_cancel), 'toggle_testing_steps()' %>
+    </span>
+    <%= f.submit t(:button_submit), :onclick => "$('#testing_steps>.flash.error').remove(); return true;" %>
+    <%= link_to_function t(:button_cancel), 'toggle_testing_steps()', class: 'cancel'%>
   </div>
 <% end %>

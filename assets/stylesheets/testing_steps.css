@@ -1,10 +1,21 @@
-
 .error-text{
 	color:red !important;
 	font-style:italic;
 }
 
-.summary { 
-	font-weight: bold; 
+.summary {
+	font-weight: bold;
 }
 
+#testing-steps-form a {
+  margin-left: 12px;
+}
+
+#testing-steps-form .steps-complete {
+  margin: 10px 0px;
+  display: block;
+}
+
+#testing-steps-form .mentions-input-box textarea {
+  min-height: 75px;
+}
